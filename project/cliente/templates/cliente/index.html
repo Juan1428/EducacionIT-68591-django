@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+    App Cliente
+{% endblock title %}
+
+{% block content_title %}
+    Clientes
+{% endblock content_title %}
+
+{% block content %}
+
+<h2>Estas son mis notas</h2>
+<div style="text-align: center;">
+
+    {% for nota in notas %}
+        {% if nota < 4 %}
+            <p style="color:red">NOTA MALA: {{nota}}</p>
+        {% else %}
+            <p style="color:green">NOTA BUENA: {{nota}}</p>
+        {% endif %}
+    {% endfor %}
+
+
+</div>
+
+
+
+    <a href="{% url 'core:home' %}">Home</a>
+{% endblock content %}
