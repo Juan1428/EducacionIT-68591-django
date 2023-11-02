@@ -10,21 +10,17 @@
 
 {% block content %}
 
-<h2>Estas son mis notas</h2>
-<div style="text-align: center;">
-
-    {% for nota in notas %}
-        {% if nota < 4 %}
-            <p style="color:red">NOTA MALA: {{nota}}</p>
-        {% else %}
-            <p style="color:green">NOTA BUENA: {{nota}}</p>
+    {% for cliente in clientes %}
+        <h2>{{ cliente.apellido }}</h2>
+        <p> {{ cliente.nombre }} </p>
+        {% if cliente.nacimiento %}
+            <p> {{ cliente.nacimiento }} </p>
+        {% endif %}
+        {% if cliente.pais_origen_id %}
+            <p> {{ cliente.pais_origen_id }} </p>
         {% endif %}
     {% endfor %}
 
 
-</div>
-
-
-
-    <a href="{% url 'core:home' %}">Home</a>
+    <a href="{% url 'core:home' %}">Ir al menú principal</a>
 {% endblock content %}

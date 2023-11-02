@@ -1,13 +1,17 @@
 {% extends 'core/base.html' %}
 
 {% block title %}
-    Proyecto
+    App Producto
 {% endblock title %}
 
 {% block content_title %}
-    Proyecto
+    Productos
 {% endblock content_title %}
+
 {% block content %}
-    <p><a href="{% url 'producto:home' %}">Ir a Producto</a></p>
-    <p><a href="{% url 'cliente:home' %}">Ir a Cliente</a></p>
+
+    {{ saludo }}
+
+    <a href="{% url 'core:home' %}">Ir al menú principal</a>
+
 {% endblock content %}

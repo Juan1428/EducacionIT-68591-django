@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+    App Cliente
+{% endblock title %}
+
+{% block content_title %}
+    Crear cliente
+{% endblock content_title %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+    
+    <a href="{% url 'core:home' %}">Ir al menú principal</a>
+
+{% endblock content %}

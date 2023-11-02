@@ -1,8 +1,59 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Cliente, Pais
+from .forms import ClienteForm
+from datetime import date
 
-
-# Create your views here.
 def home(request):
-    lista_de_notas = [2, 3, 5, 7, 10, 10]
-    contexto = {"notas": lista_de_notas}
+    clientes_registros = Cliente.objects.all()
+    contexto = {"clientes": clientes_registros}
     return render(request, "cliente/index.html", contexto)
+
+def crear_clientes(request):
+    p1 = Pais(nombre="Perú")
+    p2 = Pais(nombre="México")
+    p3 = Pais(nombre="El Salvador")
+
+    p1.save()
+    p2.save()
+    p3.save()
+
+    c1 = Cliente(nombre="Almendra", apellido="Ruiseñor", nacimiento=date(2015, 1, 1), pais_origen_id=p1)
+    c2 = Cliente(nombre="Giordana", apellido="Tapello", nacimiento=date(2005, 2, 2), pais_origen_id=p2)
+    c3 = Cliente(nombre="Macarena", apellido="Lito",
+                 nacimiento=date(1990, 1, 1), pais_origen_id=p3)
+    c4 = Cliente(nombre="Jhiordana", apellido="Perez",
+                 nacimiento=date(2005, 1, 1), pais_origen_id=None)
+    
+    c1.save()
+    c2.save()
+    c3.save()
+    c4.save()
+    return redirect("cliente:home")
+
+def busqueda(request):
+
+    # búsqueda por nombre que contenga "dana"
+    cliente_nombre = Cliente.objects.filter(nombre__contains="dana")
+
+    # nacimientos mayores a 2000
+    cliente_nacimiento = Cliente.objects.filter(nacimiento__gt=date(2000, 1, 1))
+
+    # país de origen vacío (null - None)
+    cliente_pais = Cliente.objects.filter(pais_origen_id=None)
+
+    contexto = {
+        "cliente_nombre": cliente_nombre,
+        "cliente_nacimiento": cliente_nacimiento,
+        "cliente_pais": cliente_pais
+    }
+    return render(request, "cliente/busqueda.html", contexto)
+
+def crear_cliente(request):
+    if request.method == "POST":
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("cliente:home")
+    else:  # request.method == "GET"
+        form = ClienteForm()
+    return render(request, "cliente/crear.html", {"form": form})
